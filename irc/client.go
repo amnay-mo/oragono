@@ -662,6 +662,7 @@ func (client *Client) run(session *Session) {
 		if err == errInvalidUtf8 {
 			invalidUtf8 = true // handle as normal, including labeling
 		} else if err != nil {
+			fmt.Printf("read error on %s: %v\n", client.nick, err)
 			quitMessage := "connection closed"
 			if err == errReadQ {
 				quitMessage = "readQ exceeded"
@@ -1341,6 +1342,7 @@ func (client *Client) Quit(message string, session *Session) {
 // otherwise, destroys one specific session, only destroying the client if it
 // has no more sessions.
 func (client *Client) destroy(session *Session) {
+	debug.PrintStack()
 	config := client.server.Config()
 	var sessionsToDestroy []*Session
 	var saveLastSeen bool

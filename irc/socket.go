@@ -6,6 +6,7 @@ package irc
 
 import (
 	"errors"
+	"fmt"
 	"io"
 	"sync"
 
@@ -94,6 +95,7 @@ func (socket *Socket) Write(data []byte) (err error) {
 	} else {
 		prospectiveLen := socket.totalLength + len(data)
 		if prospectiveLen > socket.maxSendQBytes {
+			fmt.Printf("sendQ exceeded\n")
 			socket.sendQExceeded = true
 			socket.closed = true
 			err = errSendQExceeded
